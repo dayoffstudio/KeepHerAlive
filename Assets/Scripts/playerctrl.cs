@@ -9,8 +9,8 @@ public class playerctrl : MonoBehaviour
     public Rigidbody2D rb;
     public SpriteRenderer sr;
     public Animator anim;
-    public float speed;
-    
+    public float maxSpeed = 4;
+    public float force = 8;
     void Start()
     {
         
@@ -25,29 +25,47 @@ public class playerctrl : MonoBehaviour
     {
         float horizontalmove = Input.GetAxisRaw("Horizontal");
         float verticalmove = Input.GetAxisRaw("Vertical");
-        Vector2 vector2;
-        //改变运动状态
-        if (horizontalmove * verticalmove != 0)
+        bool movePressed = false;
+        if (horizontalmove > 0.5)
         {
-            float speedsqrt=(float)Math.Sqrt(speed / 2);
-            vector2 = new Vector2(horizontalmove * speedsqrt, verticalmove * speedsqrt);
+            sr.flipX = true;
+            movePressed = true;
+        }
+        else if (horizontalmove < -0.5)
+        {
+            sr.flipX = false;
+            movePressed = true;
+        }
+        if (verticalmove > 0.5)
+        {
+            //可以在这里添加前后动画切换
+            movePressed = true;
+        }
+        else if (verticalmove < -0.5)
+        {
+            movePressed = true;
+        }
+        //改变运动状态
+        if (movePressed)
+        {
+            Vector2 vector = new Vector2(horizontalmove, verticalmove);
+            anim.SetBool("walk", true);
 
+            rb.AddForce(vector.normalized * force);//标准化，防止斜向移动过快
+            if(rb.velocity.sqrMagnitude> maxSpeed)
+            {
+                vector = rb.velocity;
+                vector.Normalize();//标准化再乘上速度的话，速度大小会永远小于maxSpeed
+                vector *= maxSpeed;
+                rb.velocity.Set(vector.x,vector.y);
+            }
         }
         else
         {
-            vector2 = new Vector2(horizontalmove * speed, verticalmove * speed);
+            //依靠rigidbody2D 自带的LinearDrag来产生阻尼
+            anim.SetBool("walk", false);
         }
-        rb.AddForce(vector2);
-        //改变动画
-        anim.SetFloat("walk", Math.Abs(horizontalmove)+Math.Abs(verticalmove));
-        //改变方向
-        if (horizontalmove>0)
-        {
-            sr.flipX = true;
-        }
-        if(horizontalmove<0)
-        {
-            sr.flipX = false;
-        }
+        
+
     }
 }
