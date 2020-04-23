@@ -3,17 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerctrl : MonoBehaviour
+public class PlayerMoveController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Rigidbody2D rb;
-    public SpriteRenderer sr;
-    public Animator anim;
+    private Rigidbody2D rb;
+    private SpriteRenderer sr;
+    private Animator anim;
     public float maxSpeed = 4;
     public float force = 8;
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame

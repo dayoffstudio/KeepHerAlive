@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class followerctrl : MonoBehaviour
+public class FollowerController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
