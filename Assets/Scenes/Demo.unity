@@ -8271,7 +8271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e561f90d12d5b47458f9a45a4c2da2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 4
+  maxSpeed: 3
   force: 8
 --- !u!50 &1835004215
 Rigidbody2D:
@@ -8286,7 +8286,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 6
+  m_LinearDrag: 8
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -8308,7 +8308,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shoulder: {fileID: 2033770563}
   muzzle: {fileID: 262405982}
+  anima: {fileID: 0}
   bullet: {fileID: 1461515953941741089, guid: 52667c2f47c45df4689b49f81070b16e, type: 3}
+  obj_shoulder: {fileID: 2033770562}
   bullectVelocity: 200
 --- !u!70 &1835004217
 CapsuleCollider2D:

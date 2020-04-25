@@ -14,7 +14,6 @@ public class PlayerMoveController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
 

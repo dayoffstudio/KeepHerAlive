@@ -6,19 +6,47 @@ public class ShootController : MonoBehaviour
 {
     public Transform shoulder;
     public Transform muzzle;
+    public Animator anima;
     public GameObject bullet;
+    public GameObject obj_shoulder;
+
     public float bullectVelocity = 200;
     private Vector3 mousePosition = new Vector3();
     private Vector3 sightLine = new Vector3();
+    
+    private bool if_armed=false;
     // Start is called before the first frame update
     void Start()
     {
-
+        anima = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //攻击是否被激活
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if_armed = !if_armed;
+        }
+        //激活或禁用移动手臂
+        obj_shoulder.SetActive(if_armed);
+        if (!if_armed)
+        {
+            anima.SetBool("armed", false);
+            float horizontalmove = Input.GetAxisRaw("Horizontal");
+            if(horizontalmove<0)
+            {
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
+            else if (horizontalmove > 0)
+            {
+                transform.eulerAngles = new Vector3(0, 180, 0);
+            }
+
+            return;
+        }
+        anima.SetBool("armed", true);
         //需要添加没死的情况判断
         if (Input.mousePosition != mousePosition)
         {
@@ -45,3 +73,4 @@ public class ShootController : MonoBehaviour
         }
     }
 }
+
