@@ -27,32 +27,12 @@ public class PlayerMoveController : MonoBehaviour
     {
         float horizontalmove = Input.GetAxisRaw("Horizontal");
         float verticalmove = Input.GetAxisRaw("Vertical");
-        bool movePressed = false;
-        if (horizontalmove > 0.5)
-        {
-            sr.flipX = true;
-            movePressed = true;
-        }
-        else if (horizontalmove < -0.5)
-        {
-            sr.flipX = false;
-            movePressed = true;
-        }
-        if (verticalmove > 0.5)
-        {
-            //可以在这里添加前后动画切换
-            movePressed = true;
-        }
-        else if (verticalmove < -0.5)
-        {
-            movePressed = true;
-        }
         //改变运动状态
-        if (movePressed)
+        if (horizontalmove > 0.5 || horizontalmove < -0.5 || verticalmove > 0.5 || verticalmove < -0.5)
         {
             Vector2 vector = new Vector2(horizontalmove, verticalmove);
             anim.SetBool("walk", true);
-
+            
             rb.AddForce(vector.normalized * force);//标准化，防止斜向移动过快
             if(rb.velocity.sqrMagnitude> maxSpeed)
             {
