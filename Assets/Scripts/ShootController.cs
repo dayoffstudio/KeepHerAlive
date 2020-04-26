@@ -8,7 +8,7 @@ public class ShootController : MonoBehaviour
     public Transform muzzle;
     public Animator anima;
     public GameObject bullet;
-    public GameObject obj_shoulder;
+    public GameObject objShoulder;
 
     public float bullectVelocity = 200;
     private Vector3 mousePosition = new Vector3();
@@ -30,7 +30,7 @@ public class ShootController : MonoBehaviour
             if_armed = !if_armed;
         }
         //激活或禁用移动手臂
-        obj_shoulder.SetActive(if_armed);
+        objShoulder.SetActive(if_armed);
         if (!if_armed)
         {
             anima.SetBool("armed", false);
