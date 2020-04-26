@@ -6,19 +6,20 @@ public class ShootController : MonoBehaviour
 {
     public Transform shoulder;
     public Transform muzzle;
-    public Animator anima;
+    private Animator anima;
     public GameObject bullet;
     public GameObject objShoulder;
 
     public float bullectVelocity = 200;
     private Vector3 mousePosition = new Vector3();
     private Vector3 sightLine = new Vector3();
-    
+    private Rigidbody2D rb;
     private bool if_armed=false;
     // Start is called before the first frame update
     void Start()
     {
         anima = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -69,7 +70,7 @@ public class ShootController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(bullet,muzzle.position,muzzle.rotation);
+            Instantiate(bullet, muzzle.position, muzzle.rotation);
         }
     }
 }

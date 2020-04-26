@@ -7,9 +7,8 @@ public class PlayerMoveController : MonoBehaviour
 {
     // Start is called before the first frame update
     private Rigidbody2D rb;
-    private SpriteRenderer sr;
     private Animator anim;
-    public float maxSpeed = 4;
+    public float maxSpeed;
     public float force = 8;
     void Start()
     {
@@ -24,6 +23,14 @@ public class PlayerMoveController : MonoBehaviour
     }
     void Movement()
     {
+        if (anim.GetBool("armed"))
+        {
+            rb.drag = 6;
+        }
+        else
+        {
+            rb.drag = 4;
+        }
         float horizontalmove = Input.GetAxisRaw("Horizontal");
         float verticalmove = Input.GetAxisRaw("Vertical");
         //改变运动状态
@@ -46,7 +53,5 @@ public class PlayerMoveController : MonoBehaviour
             //依靠rigidbody2D 自带的LinearDrag来产生阻尼
             anim.SetBool("walk", false);
         }
-        
-
     }
 }

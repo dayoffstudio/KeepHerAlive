@@ -12,7 +12,7 @@ public class MonsterControler : MonoBehaviour
 
     private bool monsterAwake = false;
     private bool dead = false;
-
+    private bool attacked = false;
     public float chaseSpeed;
     public float maxSpeed = 4;
     public float force = 8;
@@ -29,6 +29,7 @@ public class MonsterControler : MonoBehaviour
     void Update()
     {
         FindHuman();
+        anim.SetBool("dead",dead);
         //追逐
         if (monsterAwake)
         {
@@ -51,7 +52,11 @@ public class MonsterControler : MonoBehaviour
             {
                 monsterAwake = true;
             }
-            anim.SetBool("chasing", monsterAwake);
+            if (!attacked)
+            {
+                anim.SetBool("chasing", monsterAwake);
+            }
+           
 
             if (monsterAwake && distance <= 2.3f)
             {
@@ -63,5 +68,22 @@ public class MonsterControler : MonoBehaviour
             }
         }    
     }
-    //计时器
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "bullet")
+        {
+            attacked = true;
+            anim.SetBool("beAttacked", true);
+        }
+    }
+
+    void AfterAttacked()
+    {
+        anim.SetBool("beAttacked", false);
+    }
+    void AfterDead()
+    {
+        anim.SetTrigger("deadbody");
+    }
 }

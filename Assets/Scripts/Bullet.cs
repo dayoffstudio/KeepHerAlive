@@ -9,12 +9,19 @@ public class Bullet : MonoBehaviour
     {
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
         rigidbody.velocity = transform.right * 100;
-        Destroy(gameObject, 1);
+        Destroy(gameObject, 0.4f);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Enemy")
+        {
+            Destroy(gameObject, 0);
+        }
     }
 }
