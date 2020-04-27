@@ -21,7 +21,7 @@ TextureImporter:
       213: -2835491263055101923
     second: follower_5
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -75,6 +75,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -119,8 +120,8 @@ TextureImporter:
       name: follower_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 50
+        x: 11
+        y: 13
         width: 26
         height: 44
       alignment: 0
@@ -130,7 +131,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd95e5d06a82d814b96f3e96210cef80
+      spriteID: f8245a96e1ef63e30800000000000000
       internalID: 4483049885668819599
       vertices: []
       indices: 
@@ -140,10 +141,10 @@ TextureImporter:
       name: follower_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 50
+        x: 51
+        y: 13
         width: 26
-        height: 43
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,7 +152,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d6554a4440c654743a30efeb64a654c7
+      spriteID: 72db1a8e908923340800000000000000
       internalID: 4842099717701745959
       vertices: []
       indices: 
@@ -161,8 +162,8 @@ TextureImporter:
       name: follower_2
       rect:
         serializedVersion: 2
-        x: 87
-        y: 50
+        x: 91
+        y: 13
         width: 26
         height: 44
       alignment: 0
@@ -172,71 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7eafc55e915c3eb449d95e1f693252e3
+      spriteID: 78930b6f852e0c660800000000000000
       internalID: 7404166659120839047
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: follower_3
-      rect:
-        serializedVersion: 2
-        x: 7
-        y: 0
-        width: 26
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6acfc851aa6a5d34d8a45db7041c4fd0
-      internalID: 3064678620683768575
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: follower_4
-      rect:
-        serializedVersion: 2
-        x: 47
-        y: 0
-        width: 26
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d1b6eb06bbc35f441850ddecbba171e4
-      internalID: 966831380758959010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: follower_5
-      rect:
-        serializedVersion: 2
-        x: 87
-        y: 0
-        width: 26
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b5e9a409a4c31bc448e34dbd6a789608
-      internalID: -2835491263055101923
       vertices: []
       indices: 
       edges: []
