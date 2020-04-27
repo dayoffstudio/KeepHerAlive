@@ -8,8 +8,8 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
-        rigidbody.velocity = transform.right * 100;
-        Destroy(gameObject, 0.4f);
+        rigidbody.velocity = transform.right * 50;
+        Destroy(gameObject, 1f);
     }
 
     // Update is called once per frame

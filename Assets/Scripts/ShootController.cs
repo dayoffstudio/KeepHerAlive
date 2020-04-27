@@ -10,7 +10,6 @@ public class ShootController : MonoBehaviour
     public GameObject bullet;
     public GameObject objShoulder;
 
-    public float bullectVelocity = 200;
     private Vector3 mousePosition = new Vector3();
     private Vector3 sightLine = new Vector3();
     private Rigidbody2D rb;
@@ -29,21 +28,26 @@ public class ShootController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             if_armed = !if_armed;
+            //激活或禁用移动手臂
+            objShoulder.SetActive(if_armed);
         }
-        //激活或禁用移动手臂
-        objShoulder.SetActive(if_armed);
+
         if (!if_armed)
         {
             anima.SetBool("armed", false);
             float horizontalmove = Input.GetAxisRaw("Horizontal");
-            if(horizontalmove<0)
+
+
+            if (horizontalmove > 0.5&&transform.eulerAngles.y!=180)
+            {
+
+                transform.eulerAngles = new Vector3(0, 180, 0);
+            }
+            else if (horizontalmove<-0.5 && transform.eulerAngles.y != 0)
             {
                 transform.eulerAngles = new Vector3(0, 0, 0);
             }
-            else if (horizontalmove > 0)
-            {
-                transform.eulerAngles = new Vector3(0, 180, 0);
-            }
+
 
             return;
         }

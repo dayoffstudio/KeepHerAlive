@@ -7,7 +7,6 @@ public class MonsterControler : MonoBehaviour
 {
     public GameObject player;
 
-    private NavMeshAgent agent;
     private Animator anim;
 
     private bool monsterAwake = false;
@@ -21,7 +20,6 @@ public class MonsterControler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        agent = this.GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
     }
 
@@ -33,7 +31,7 @@ public class MonsterControler : MonoBehaviour
         //追逐
         if (monsterAwake)
         {
-            agent.SetDestination(player.transform.position);
+            //agent.SetDestination(player.transform.position);
         }
     }
     //寻找人类

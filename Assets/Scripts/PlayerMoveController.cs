@@ -23,14 +23,6 @@ public class PlayerMoveController : MonoBehaviour
     }
     void Movement()
     {
-        if (anim.GetBool("armed"))
-        {
-            rb.drag = 6;
-        }
-        else
-        {
-            rb.drag = 4;
-        }
         float horizontalmove = Input.GetAxisRaw("Horizontal");
         float verticalmove = Input.GetAxisRaw("Vertical");
         //改变运动状态
@@ -40,13 +32,7 @@ public class PlayerMoveController : MonoBehaviour
             anim.SetBool("walk", true);
             
             rb.AddForce(vector.normalized * force);//标准化，防止斜向移动过快
-            if(rb.velocity.sqrMagnitude> maxSpeed)
-            {
-                vector = rb.velocity;
-                vector.Normalize();//标准化再乘上速度的话，速度大小会永远小于maxSpeed
-                vector *= maxSpeed;
-                rb.velocity.Set(vector.x,vector.y);
-            }
+
         }
         else
         {
