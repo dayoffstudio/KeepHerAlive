@@ -9,16 +9,21 @@ public class ShootController : MonoBehaviour
     private Animator anima;
     public GameObject bullet;
     public GameObject objShoulder;
-
+    public GameObject fireEffect;
+    public int coolDown = 40;
+    private int coolDownCount = 0;
+    private bool isOnFire = false;
     private Vector3 mousePosition = new Vector3();
     private Vector3 sightLine = new Vector3();
     private Rigidbody2D rb;
     private bool if_armed=false;
+    
     // Start is called before the first frame update
     void Start()
     {
         anima = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        coolDownCount = coolDown;
     }
 
     // Update is called once per frame
@@ -74,8 +79,27 @@ public class ShootController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(bullet, muzzle.position, muzzle.rotation);
+            isOnFire = true;
+
+            
+            fireEffect.SetActive(true);
         }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            isOnFire = false;
+            coolDownCount = coolDown;
+            fireEffect.SetActive(false);
+        }
+        if (isOnFire)
+        {
+            ++coolDownCount;
+            if (coolDownCount >= coolDown)
+            {
+                Instantiate(bullet, muzzle.position, muzzle.rotation);
+                coolDownCount = 0;
+            }
+        }
+        Debug.Log(coolDownCount);
     }
 }
 

@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MonsterControler : MonoBehaviour
+public class MonsterController : MonoBehaviour
 {
     public GameObject player;
 
     private Animator anim;
-
+    private new Rigidbody2D rigidbody;
     private bool monsterAwake = false;
     private bool dead = false;
     private bool attacked = false;
     public float chaseSpeed;
     public float maxSpeed = 4;
     public float force = 8;
-
-
+    public float getAttackForce = 2;
+    public GameObject bulletHole;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -54,8 +55,8 @@ public class MonsterControler : MonoBehaviour
             {
                 anim.SetBool("chasing", monsterAwake);
             }
-           
 
+            
             if (monsterAwake && distance <= 2.3f)
             {
                 //判断攻击CD       
@@ -66,16 +67,35 @@ public class MonsterControler : MonoBehaviour
             }
         }    
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collision.collider.tag == "bullet")
+        if (collider.tag == "Bullet")
         {
-            attacked = true;
-            anim.SetBool("beAttacked", true);
+
+            GetAttacked(collider);
+        }
+        else if (collider.tag=="Player")
+        {
+
         }
     }
-
+    private void GetAttacked(Collider2D collider)
+    {
+        anim.SetBool("beAttacked", true);
+        Rigidbody2D bulletRB = collider.GetComponent<Rigidbody2D>();
+        Vector2 force = bulletRB.velocity * getAttackForce;
+        rigidbody.AddForce(force);
+        Instantiate(bulletHole, collider.transform.position,new Quaternion());
+        Destroy(collider.gameObject, 0.01f);
+        if (force.x>0.1&&transform.eulerAngles.y!=0)
+        {
+            transform.eulerAngles = new Vector3(0,0,0);
+        }
+        else if(force.x<-0.1 && transform.eulerAngles.y != 180)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+    }
     void AfterAttacked()
     {
         anim.SetBool("beAttacked", false);

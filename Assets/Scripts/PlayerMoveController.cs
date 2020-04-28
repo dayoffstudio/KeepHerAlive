@@ -8,8 +8,8 @@ public class PlayerMoveController : MonoBehaviour
     // Start is called before the first frame update
     private Rigidbody2D rb;
     private Animator anim;
-    public float maxSpeed;
-    public float force = 8;
+    public float maxSpeed = 4;
+    public float startSpeed = 2;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -28,10 +28,13 @@ public class PlayerMoveController : MonoBehaviour
         //改变运动状态
         if (horizontalmove > 0.5 || horizontalmove < -0.5 || verticalmove > 0.5 || verticalmove < -0.5)
         {
-            Vector2 vector = new Vector2(horizontalmove, verticalmove);
+            Vector2 vector = new Vector2(horizontalmove, verticalmove)* startSpeed + rb.velocity;
             anim.SetBool("walk", true);
-            
-            rb.AddForce(vector.normalized * force);//标准化，防止斜向移动过快
+            if (vector.magnitude > maxSpeed)
+            {
+                vector = vector.normalized*maxSpeed;//标准化，防止斜向移动过快
+            }
+            rb.velocity = vector;
 
         }
         else
