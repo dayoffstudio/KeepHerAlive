@@ -16,13 +16,13 @@ public class MonsterController : MonoBehaviour
     public float chaseRadius;    //追击半径，玩家进入后怪物会追击玩家
     public float wanderRadius;   //放弃半径，当怪物超出会放弃追击
     public float attackRange;    //攻击距离
-
+    public float startSpeed;
     public float chaseSpeed;
     public float maxSpeed = 4;
     public float force = 8;
     private enum MonsterState
     {
-        WANDER,     //移动
+        WANDER,     //移动巡逻
         CHASE,      //追击玩家
         ATTACK      //攻击玩家
     }
@@ -30,9 +30,8 @@ public class MonsterController : MonoBehaviour
     public float actRestTme;            //更换待机指令的间隔时间
     private float lastActTime;          //最近一次指令时间
     private int attackKind;             //攻击方式
-
+    private float x, y;                 //巡逻方向
     private float diatanceToPlayer;         //怪物与玩家的距离
-    private Quaternion targetRotation;         //怪物的目标朝向
 
     public float getAttackForce = 2;
     public GameObject bulletHole;
@@ -47,6 +46,8 @@ public class MonsterController : MonoBehaviour
         attackRange = Mathf.Min(chaseRadius, attackRange);
         //游走半径不大于追击半径，否则怪物可能刚刚开始追击就停止
         wanderRadius = Mathf.Min(chaseRadius, wanderRadius);
+
+        InvokeRepeating("DirChange", 0.1f, 2f);
     }
     // Update is called once per frame
     void Update()
@@ -55,11 +56,8 @@ public class MonsterController : MonoBehaviour
         {
             //游走，根据状态随机时生成的目标位置修改朝向，并向前移动
             case MonsterState.WANDER:
-                //transform.Translate(Vector2.forward * Time.deltaTime * maxSpeed);
-                //转向指令
-                //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed);
-                //切换动画
-                anim.SetBool("chasing", false);
+                //改变运动状态
+                Movement(x, y, startSpeed);
                 //该状态下的检测指令
                 WanderRadiusCheck();
                 //WanderRadiusCheck();
@@ -67,8 +65,11 @@ public class MonsterController : MonoBehaviour
 
             //追击状态，朝着玩家跑去
             case MonsterState.CHASE:
+                //改变状态
+                Movement(x, y, chaseSpeed);
                 //切换动画
                 anim.SetBool("chasing", true);
+
                 //该状态下的检测指令
                 ChaseRadiusCheck();
                 break;
@@ -83,7 +84,37 @@ public class MonsterController : MonoBehaviour
                 break;
         }
     }
-
+    void DirChange()
+    {
+        y = Random.value < 0.3f ? 0f : 1f;
+        x = Random.value < 0.3f ? 0f : 1f;
+        if (x!=0)
+        {
+          x = Random.value < 0.5f ? -1f : 1f;
+        }
+        if (y != 0)
+        {
+           y = Random.value < 0.5f ? -1f : 1f;
+        }
+    }
+    void Movement(float x,float y,float speed)
+    {
+        if (x > 0.5 && transform.eulerAngles.y != 180)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else if (x < -0.5 && transform.eulerAngles.y != 0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        Vector2 vector = new Vector2(x, y) * speed * Time.deltaTime + rigidbody.velocity;
+        anim.SetBool("chasing", false);
+        if (vector.magnitude > speed)
+        {
+            vector = vector.normalized * speed;//标准化，防止斜向移动过快
+        }
+        rigidbody.velocity = vector;
+    }
     ///
     /// 游走状态检测，检测敌人距离
     ///
@@ -152,6 +183,7 @@ public class MonsterController : MonoBehaviour
     {
         anim.SetInteger("attackKind", 0);
         anim.SetBool("attack", false);
+        currentState = MonsterState.CHASE;
     }
     void AfterAttacked()
     {

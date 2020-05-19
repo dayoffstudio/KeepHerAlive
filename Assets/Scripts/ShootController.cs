@@ -36,7 +36,14 @@ public class ShootController : MonoBehaviour
             //激活或禁用移动手臂
             objShoulder.SetActive(if_armed);
         }
-
+        if (anima.GetBool("run") && anima.GetBool("walk"))
+        {
+            objShoulder.SetActive(false);
+        }
+        else
+        {
+            objShoulder.SetActive(if_armed);
+        }
         if (!if_armed)
         {
             anima.SetBool("armed", false);
@@ -52,11 +59,10 @@ public class ShootController : MonoBehaviour
             {
                 transform.eulerAngles = new Vector3(0, 0, 0);
             }
-
-
             return;
         }
-        anima.SetBool("armed", true);
+
+        anima.SetBool("armed", if_armed);
         //需要添加没死的情况判断
         if (Input.mousePosition != mousePosition)
         {

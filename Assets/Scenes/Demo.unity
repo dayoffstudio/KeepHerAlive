@@ -7991,7 +7991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
+  m_ShowCameraFrustum: 0
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 2
@@ -8270,8 +8270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e561f90d12d5b47458f9a45a4c2da2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 4
-  startSpeed: 2
+  maxSpeed: 8
+  startSpeed: 10
+  runSpeed: 16
 --- !u!50 &1835004215
 Rigidbody2D:
   serializedVersion: 4
@@ -8718,6 +8719,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5808580044542705245, guid: cd959c65cc34f90478588caf4f35d4aa,
+        type: 3}
+      propertyPath: m_LinearDrag
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5808580044542705246, guid: cd959c65cc34f90478588caf4f35d4aa,
         type: 3}
       propertyPath: player
@@ -8732,6 +8738,26 @@ PrefabInstance:
         type: 3}
       propertyPath: chaseRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5808580044542705246, guid: cd959c65cc34f90478588caf4f35d4aa,
+        type: 3}
+      propertyPath: attackRange
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5808580044542705246, guid: cd959c65cc34f90478588caf4f35d4aa,
+        type: 3}
+      propertyPath: chaseSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5808580044542705246, guid: cd959c65cc34f90478588caf4f35d4aa,
+        type: 3}
+      propertyPath: startSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5808580044542705246, guid: cd959c65cc34f90478588caf4f35d4aa,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd959c65cc34f90478588caf4f35d4aa, type: 3}
