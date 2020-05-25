@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class MonsterController : MonoBehaviour
 {
-    public GameObject player;
-
+    //public GameObject player;
+    static Transform player;
     private Animator anim;
     private new Rigidbody2D rigidbody;
     //private bool monsterAwake = false;
@@ -40,7 +40,8 @@ public class MonsterController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
-
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
         //检查并修正怪物设置
         //攻击距离不大于自卫半径，否则就无法触发追击状态，直接开始战斗了
         attackRange = Mathf.Min(chaseRadius, attackRange);
@@ -66,7 +67,14 @@ public class MonsterController : MonoBehaviour
             //追击状态，朝着玩家跑去
             case MonsterState.CHASE:
                 //改变状态
-                Movement(x, y, chaseSpeed);
+                float x1=0, y1 = 0;
+                y1 = player.position.y - this.transform.position.y;
+                x1 = player.position.x - this.transform.position.x;
+                if (x1 < 0) x1 = -1;
+                else if (x1 > 0) x1 = 1;
+                if (y1 < 0) y1 = -1;
+                else if (y1 > 0) y1 = 1;
+                Movement(x1, y1, chaseSpeed);
                 //切换动画
                 anim.SetBool("chasing", true);
 
@@ -120,7 +128,7 @@ public class MonsterController : MonoBehaviour
     ///
     void WanderRadiusCheck()
     {
-        diatanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
+        diatanceToPlayer = Vector2.Distance(player.position, transform.position);
         if (diatanceToPlayer < chaseRadius)
         {
             currentState = MonsterState.CHASE;
@@ -132,7 +140,7 @@ public class MonsterController : MonoBehaviour
     ///
     void ChaseRadiusCheck()
     {
-        diatanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
+        diatanceToPlayer = Vector2.Distance(player.position, transform.position);
         //如果进入攻击距离就开始攻击
         if (diatanceToPlayer < attackRange)
         {
