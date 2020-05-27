@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class MonsterController : MonoBehaviour
 {
     //public GameObject player;
-    static Transform player;
+    private static Transform player;
     private Animator anim;
     private new Rigidbody2D rigidbody;
     //private bool monsterAwake = false;
@@ -16,10 +16,8 @@ public class MonsterController : MonoBehaviour
     public float chaseRadius;    //追击半径，玩家进入后怪物会追击玩家
     public float wanderRadius;   //放弃半径，当怪物超出会放弃追击
     public float attackRange;    //攻击距离
-    public float startSpeed;
+    public float wanderSpeed;
     public float chaseSpeed;
-    public float maxSpeed = 4;
-    public float force = 8;
     private enum MonsterState
     {
         WANDER,     //移动巡逻
@@ -27,21 +25,24 @@ public class MonsterController : MonoBehaviour
         ATTACK      //攻击玩家
     }
     private MonsterState currentState = MonsterState.WANDER;//默认状态为移动
-    public float actRestTme;            //更换待机指令的间隔时间
-    private float lastActTime;          //最近一次指令时间
-    private int attackKind;             //攻击方式
+
+
     private float x, y;                 //巡逻方向
     private float diatanceToPlayer;         //怪物与玩家的距离
 
     public float getAttackForce = 2;
     public GameObject bulletHole;
     // Start is called before the first frame update
+    void Awake()
+    {
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
     void Start()
     {
         anim = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
-        if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+        
         //检查并修正怪物设置
         //攻击距离不大于自卫半径，否则就无法触发追击状态，直接开始战斗了
         attackRange = Mathf.Min(chaseRadius, attackRange);
@@ -58,7 +59,7 @@ public class MonsterController : MonoBehaviour
             //游走，根据状态随机时生成的目标位置修改朝向，并向前移动
             case MonsterState.WANDER:
                 //改变运动状态
-                Movement(x, y, startSpeed);
+                Movement(new Vector2(x,y), wanderSpeed);
                 //该状态下的检测指令
                 WanderRadiusCheck();
                 //WanderRadiusCheck();
@@ -67,14 +68,7 @@ public class MonsterController : MonoBehaviour
             //追击状态，朝着玩家跑去
             case MonsterState.CHASE:
                 //改变状态
-                float x1=0, y1 = 0;
-                y1 = player.position.y - this.transform.position.y;
-                x1 = player.position.x - this.transform.position.x;
-                if (x1 < 0) x1 = -1;
-                else if (x1 > 0) x1 = 1;
-                if (y1 < 0) y1 = -1;
-                else if (y1 > 0) y1 = 1;
-                Movement(x1, y1, chaseSpeed);
+                Movement(player.position - this.transform.position, chaseSpeed);
                 //切换动画
                 anim.SetBool("chasing", true);
 
@@ -105,23 +99,19 @@ public class MonsterController : MonoBehaviour
            y = Random.value < 0.5f ? -1f : 1f;
         }
     }
-    void Movement(float x,float y,float speed)
+    void Movement(Vector2 vector2,float speed)
     {
-        if (x > 0.5 && transform.eulerAngles.y != 180)
+        if (vector2.x > 0 && transform.eulerAngles.y != 180)
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-        else if (x < -0.5 && transform.eulerAngles.y != 0)
+        else if (vector2.x < 0 && transform.eulerAngles.y != 0)
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
         }
-        Vector2 vector = new Vector2(x, y) * speed * Time.deltaTime + rigidbody.velocity;
+        vector2 = vector2.normalized * speed;//标准化，防止斜向移动过快
         anim.SetBool("chasing", false);
-        if (vector.magnitude > speed)
-        {
-            vector = vector.normalized * speed;//标准化，防止斜向移动过快
-        }
-        rigidbody.velocity = vector;
+        rigidbody.velocity = vector2;
     }
     ///
     /// 游走状态检测，检测敌人距离

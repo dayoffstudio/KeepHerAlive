@@ -9,9 +9,8 @@ public class PlayerMoveController : MonoBehaviour
     // Start is called before the first frame update
     private Rigidbody2D rb;
     private Animator anim;
-    public float maxSpeed;
-    public float startSpeed;
-    public float runSpeed;
+    public float startSpeed = 6;
+    public float runSpeed = 6;
 
     private enum playerState
     {
@@ -58,13 +57,8 @@ public class PlayerMoveController : MonoBehaviour
         if (horizontalmove > 0.5 || horizontalmove < -0.5 || verticalmove > 0.5 || verticalmove < -0.5)
         {
             anim.SetBool("walk", true);
-            Vector2 vector = new Vector2(horizontalmove, verticalmove) * speed * Time.deltaTime + rb.velocity;
             
-            if (vector.magnitude > maxSpeed)
-            {
-                vector = vector.normalized*maxSpeed;//标准化，防止斜向移动过快
-            }
-            rb.velocity = vector;
+            rb.velocity = new Vector2(horizontalmove, verticalmove).normalized * speed;
 
         }
         else
